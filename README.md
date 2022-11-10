@@ -1,17 +1,70 @@
-# pokedesk_app
+# Luiz Negrini's Pokedesk
 
-A new Flutter project.
+An app that show information about pokemons.
 
-## Getting Started
+## SETUP
 
-This project is a starting point for a Flutter application.
+### 0 Install Flutter Framework
 
-A few resources to get you started if this is your first Flutter project:
+[See docs here.](https://docs.flutter.dev/get-started/install)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# pokedesk-app
+### 1 Lefthook
+
+Used to configure Git Hooks in the project. Performs some checks before commits or pushes.
+
+Documentation with installation manual [here.](https://github.com/evilmartians/lefthook/blob/master/docs/full_guide.md)
+
+After installation, access the project root and run:
+
+```bash
+lefthook install -f
+```
+
+## **2. Running the project**
+
+To run, take into account the flavors `dev`, `hml` e `prod`.  
+
+Each flavor has a configuration file inside the folder `base_app/.env`.  
+
+Always run as follows:  
+
+```bash
+bash scripts.sh -get
+cd base_app
+flutter run -t lib/main-<flavor>.dart --flavor <flavor> 
+```
+
+## **3. Tests**
+
+To maintain organization, each test file must be created in the same folder structure as the file being tested. Example:
+
+```bash
+# Implementation
+/lib
+  /domain
+    /usecases
+      /remote_auth.dart
+
+# Test
+/test
+  /domain
+    /usecases
+      /remote_auth_test.dart
+```
+
+## **4. Standards and best practices**
+
+Project configured with [Flutter Lints](https://pub.dev/packages/flutter_lints) package.
+
+### **5. Commits**
+
+Standardization of commit messages must be maintained. You must follow the pattern specified in [Conventional Commits.](https://www.conventionalcommits.org/pt-br/v1.0.0/)
+
+It is mandatory to always have a type in the commit message.
+*This validation is done automatically by Lefthook at commit time.*
+
+Accepted prefixes: build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test
+
+
+## **7. Critique**
