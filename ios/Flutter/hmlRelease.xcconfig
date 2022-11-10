@@ -1,0 +1,6 @@
+#include "Generated.xcconfig"
+
+FLUTTER_TARGET=lib/main_hml.dart
+ASSET_PREFIX=hml
+BUNDLE_NAME=Backoffice hml
+BUNDLE_DISPLAY_NAME=Backoffice hml
