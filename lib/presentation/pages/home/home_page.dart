@@ -13,13 +13,11 @@ class HomePage extends HookConsumerWidget {
 
     return ScaffoldWidget(
       appBar: AppBar(
-        title: const Text('Dashboard'),
+        title: const Text('Pokemon list'),
       ),
       body: SafeArea(
         child: Column(
-          children: const [
-            Text('Pokemon list'),
-          ],
+          children: const [],
         ),
       ),
     );
