@@ -21,7 +21,9 @@ class HomePage extends HookConsumerWidget {
           builder: (context, ref, child) {
             final state = useHomeState(ref);
 
-            if (state.isLoading) return const CircularProgressIndicator();
+            if (state.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
             if (state.errorMessage.isNotEmpty) {
               return handleError(context, state, viewModel);
             }
