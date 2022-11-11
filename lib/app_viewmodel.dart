@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'app_state.dart';
+import 'core/core.dart';
 
 abstract class IAppViewModel extends ValueNotifier<AsyncValue<IAppState>> {
   IAppViewModel(AsyncValue<IAppState> value) : super(value);
@@ -28,7 +29,9 @@ class AppViewModel extends IAppViewModel {
     ]);
 
     value = AsyncValue.data(
-      AppState(),
+      AppState(
+        dependencies: Dependencies.load(),
+      ),
     );
   }
 }

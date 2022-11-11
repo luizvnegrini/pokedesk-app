@@ -3,12 +3,17 @@ import 'package:equatable/equatable.dart';
 typedef ExceptionObserver = void Function(BaseException exception);
 
 abstract class BaseException extends Equatable implements Exception {
-  BaseException({required this.type, this.debugInfo, this.debugData}) {
+  BaseException({
+    required this.type,
+    this.debugInfo,
+    this.debugData,
+    this.message,
+  }) {
     observer?.call(this);
   }
 
   final ExceptionType type;
-
+  final String? message;
   final String? debugInfo;
   final dynamic debugData;
 

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pokedesk_app/presentation/presentation.dart';
 
 import 'app_state.dart';
 import 'app_viewmodel.dart';
@@ -34,9 +35,11 @@ class _App extends StatelessWidget {
       ValueListenableBuilder<AsyncValue<IAppState>>(
         valueListenable: viewModel,
         builder: (context, value, child) => value.maybeWhen(
-          data: (state) => const ProviderScope(
-            overrides: [],
-            child: AppLoadedRoot(),
+          data: (state) => ProviderScope(
+            overrides: [
+              fetchPokemons.overrideWithValue(state.dependencies.fetchPokemons),
+            ],
+            child: const AppLoadedRoot(),
           ),
           orElse: () => MaterialApp(
             title: appTitle,

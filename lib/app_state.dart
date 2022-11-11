@@ -1,5 +1,14 @@
-abstract class IAppState {}
+import 'core/core.dart';
+
+abstract class IAppState {
+  abstract final IDependencies dependencies;
+}
 
 class AppState extends IAppState {
-  AppState();
+  AppState({
+    required this.dependencies,
+  });
+
+  @override
+  final IDependencies dependencies;
 }
