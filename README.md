@@ -44,13 +44,13 @@ To maintain organization, each test file must be created in the same folder stru
 /lib
   /domain
     /usecases
-      /remote_auth.dart
+      /XYZ_test.dart
 
 # Test
 /test
   /domain
     /usecases
-      /remote_auth_test.dart
+      /XYZ_test.dart
 ```
 
 ## **4. Standards and best practices**
