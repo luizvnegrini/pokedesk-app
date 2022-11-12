@@ -67,7 +67,7 @@ It is mandatory to always have a type in the commit message.
 Accepted prefixes: build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test
 
 
-## **7. Critique**
+## **6. Critique**
 
 As a main criticism it would increase test coverage and perform more different types of tests.
 
