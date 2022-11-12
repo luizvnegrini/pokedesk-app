@@ -198,12 +198,16 @@ class PokemonDetailsPage extends HookConsumerWidget {
 
   ElevatedButton handleError(BuildContext context, IPokemonDetailsState state,
       IPokemonDetailsViewModel viewModel) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          state.errorMessage,
-        ),
-      ),
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              state.errorMessage,
+            ),
+          ),
+        );
+      },
     );
 
     return ElevatedButton(

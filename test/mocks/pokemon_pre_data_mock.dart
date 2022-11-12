@@ -5,7 +5,7 @@ class PokemonPreDataFactory {
   static PokemonPreData makePokemonPreData() {
     return PokemonPreData(
       name: faker.person.firstName(),
-      url: faker.internet.httpsUrl(),
+      url: 'https://testing.co/api/1/',
     );
   }
 }

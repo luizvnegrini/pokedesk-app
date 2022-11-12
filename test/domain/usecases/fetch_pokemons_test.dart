@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pokedesk_app/core/core.dart';
@@ -24,15 +23,7 @@ void main() {
     const limit = 151;
     const offset = 0;
 
-    final pokemonList = PokemonList(
-      count: 151,
-      next: faker.internet.httpsUrl(),
-      previous: null,
-      results: [
-        PokemonPreDataFactory.makePokemonPreData(),
-        PokemonPreDataFactory.makePokemonPreData(),
-      ],
-    );
+    final pokemonList = PokemonListFactory.makePokemonList();
 
     when(() => spy.fetchList(limit: limit, offset: offset)).thenAnswer(
       (invocation) async => Right(pokemonList),

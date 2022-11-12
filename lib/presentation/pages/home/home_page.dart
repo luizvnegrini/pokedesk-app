@@ -35,7 +35,7 @@ class HomePage extends HookConsumerWidget {
               return const Center(child: CircularProgressIndicator());
             }
             if (state.errorMessage.isNotEmpty) {
-              return handleError(context, state, viewModel);
+              return Center(child: handleError(context, state, viewModel));
             }
 
             final scrollController = useScrollController();
@@ -201,13 +201,17 @@ class HomePage extends HookConsumerWidget {
 
   ElevatedButton handleError(
       BuildContext context, IHomeState state, IHomeViewModel viewModel) {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          state.errorMessage,
-        ),
-      ),
-    );
+          SnackBar(
+            content: Text(
+              state.errorMessage,
+            ),
+          ),
+        );
+      },
+    );   
 
     return ElevatedButton(
       onPressed: () => viewModel.fetchPokemons(

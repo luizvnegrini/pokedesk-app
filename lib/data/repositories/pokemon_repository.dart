@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:pokedesk_app/core/core.dart';
@@ -24,7 +23,7 @@ class PokemonRepository implements IPokemonRepository {
       );
 
       return Right(response.toEntity());
-    } on HttpException {
+    } catch (e) {
       return Left(PokemonFailure(type: ExceptionType.serverError));
     }
   }
@@ -39,7 +38,7 @@ class PokemonRepository implements IPokemonRepository {
       );
 
       return Right(response.toEntity());
-    } on HttpException {
+    } catch (e) {
       return Left(PokemonFailure(type: ExceptionType.serverError));
     }
   }
