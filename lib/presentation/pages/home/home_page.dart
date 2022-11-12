@@ -15,7 +15,16 @@ class HomePage extends HookConsumerWidget {
 
     return ScaffoldWidget(
       appBar: AppBar(
-        title: const Text('Pokemon list'),
+        backgroundColor: Colors.red,
+        leading: const BackButton(
+          color: Colors.white,
+        ),
+        title: const Text(
+          'Pokemon list',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
       body: SafeArea(
         child: HookConsumer(
@@ -96,50 +105,70 @@ class HomePage extends HookConsumerWidget {
                       elevation: 15,
                       child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            final pokemon = state.searchedPokemons![index];
-                            final splitted = pokemon.url.split('/');
-                            final pokemonId =
-                                int.parse(splitted[splitted.length - 2]);
-
-                            return GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () => Navigator.pushNamed(
-                                context,
-                                MainRoutes.pokemonDetails,
-                                arguments: PokemonDetailsPageArguments(
-                                  pokemonName: pokemon.name,
-                                  pokemonId: pokemonId,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    viewModel.closeSearchCard();
+                                    searchController.clear();
+                                  },
+                                  child: const Icon(Icons.close),
                                 ),
-                              ),
-                              child: Row(
-                                children: [
-                                  CachedNetworkImage(
-                                    width: 40,
-                                    height: 40,
-                                    imageUrl:
-                                        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pokemonId.png',
-                                    progressIndicatorBuilder: (context, url,
-                                            downloadProgress) =>
-                                        CircularProgressIndicator(
-                                            value: downloadProgress.progress),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            ListView.separated(
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                final pokemon = state.searchedPokemons![index];
+                                final splitted = pokemon.url.split('/');
+                                final pokemonId =
+                                    int.parse(splitted[splitted.length - 2]);
+
+                                return GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  onTap: () => Navigator.pushNamed(
+                                    context,
+                                    MainRoutes.pokemonDetails,
+                                    arguments: PokemonDetailsPageArguments(
+                                      pokemonName: pokemon.name,
+                                      pokemonId: pokemonId,
+                                    ),
                                   ),
-                                  const SizedBox(width: 5),
-                                  Text(pokemon.name.toCapitalized()),
-                                  const Spacer(),
-                                  const Icon(Icons.navigate_next),
-                                ],
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) => const Divider(),
-                          itemCount: state.searchedPokemons != null
-                              ? state.searchedPokemons!.length
-                              : 0,
+                                  child: Row(
+                                    children: [
+                                      CachedNetworkImage(
+                                        width: 40,
+                                        height: 40,
+                                        imageUrl:
+                                            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pokemonId.png',
+                                        progressIndicatorBuilder: (context, url,
+                                                downloadProgress) =>
+                                            CircularProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(pokemon.name.toCapitalized()),
+                                      const Spacer(),
+                                      const Icon(Icons.navigate_next),
+                                    ],
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) =>
+                                  const Divider(),
+                              itemCount: state.searchedPokemons != null
+                                  ? state.searchedPokemons!.length
+                                  : 0,
+                            ),
+                          ],
                         ),
                       ),
                     ),

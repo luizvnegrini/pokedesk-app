@@ -28,7 +28,18 @@ class PokemonDetailsPage extends HookConsumerWidget {
     final viewModel = readPokemonDetailsViewModel(ref, args.pokemonId);
 
     return ScaffoldWidget(
-      appBar: AppBar(title: const Text('Pokemon details')),
+      appBar: AppBar(
+        leading: const BackButton(
+          color: Colors.white,
+        ),
+        title: const Text(
+          'Pokemon details',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.red,
+      ),
       body: SafeArea(
         child: HookConsumer(
           builder: (context, ref, child) {

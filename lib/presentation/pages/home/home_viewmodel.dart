@@ -22,6 +22,7 @@ abstract class IHomeViewModel extends ViewModel<IHomeState> {
     required int limit,
   });
   Future<void> searchPokemon(String? value);
+  void closeSearchCard();
 }
 
 class HomeViewModel extends IHomeViewModel {
@@ -80,5 +81,11 @@ class HomeViewModel extends IHomeViewModel {
         },
       ),
     );
+  }
+
+  @override
+  void closeSearchCard() {
+    state.searchedPokemons?.clear();
+    state = state.copyWith(searchedPokemons: null);
   }
 }
