@@ -68,3 +68,9 @@ Accepted prefixes: build, chore, ci, docs, feat, fix, perf, refactor, revert, st
 
 
 ## **7. Critique**
+
+As a main criticism it would increase test coverage and perform more different types of tests.
+
+Also improve the performance of the app using managing the rebuild of hooks only when necessary and leaving it in specific widgets.
+
+I didn't find it necessary to create microapps for this project for now, if in the future it is necessary, it will be possible to separate dependencies in another microapp (making the project a monorepo) and also separating each feature in its microapp.
