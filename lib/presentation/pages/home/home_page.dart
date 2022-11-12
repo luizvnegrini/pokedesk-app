@@ -35,21 +35,32 @@ class HomePage extends HookConsumerWidget {
                 final splitted = pokemon.url.split('/');
                 final pokemonId = int.parse(splitted[splitted.length - 2]);
 
-                return Row(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl:
-                          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pokemonId.png',
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) =>
-                              CircularProgressIndicator(
-                                  value: downloadProgress.progress),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    MainRoutes.pokemonDetails,
+                    arguments: PokemonDetailsPageArguments(
+                      pokemonName: pokemon.name,
+                      pokemonId: pokemonId,
                     ),
-                    const SizedBox(width: 30),
-                    Text(pokemon.name.toCapitalized(allWords: true)),
-                  ],
+                  ),
+                  child: Row(
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl:
+                            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pokemonId.png',
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                                    value: downloadProgress.progress),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
+                      const SizedBox(width: 30),
+                      Text(pokemon.name.toCapitalized(allWords: true)),
+                    ],
+                  ),
                 );
               },
               separatorBuilder: (context, index) => const Divider(),

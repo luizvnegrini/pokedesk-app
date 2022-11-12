@@ -6,6 +6,10 @@ abstract class IPokemonDataSource {
     required String limit,
     required String offset,
   });
+
+  Future<PokemonModel> fetchPokemonDetail({
+    required String pokemonId,
+  });
 }
 
 class PokemonDataSource implements IPokemonDataSource {
@@ -27,5 +31,14 @@ class PokemonDataSource implements IPokemonDataSource {
     );
 
     return PokemonListModel.fromJson(response);
+  }
+  
+  @override
+  Future<PokemonModel> fetchPokemonDetail({required String pokemonId}) async {
+    final response = await dataSource.get(
+      endpoint: '/pokemon/$pokemonId',
+    );
+
+    return PokemonModel.fromJson(response);
   }
 }

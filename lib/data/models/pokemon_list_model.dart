@@ -20,7 +20,7 @@ class PokemonListModel {
         next: json['next'],
         previous: json['previous'],
         results: (json['results'] as List)
-            .map((post) => PokemonPreDataModel.fromJson(post))
+            .map((result) => PokemonPreDataModel.fromJson(result))
             .toList(),
       );
 

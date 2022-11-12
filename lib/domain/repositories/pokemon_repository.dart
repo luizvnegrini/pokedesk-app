@@ -8,4 +8,8 @@ abstract class IPokemonRepository {
     required int limit,
     required int offset,
   });
+
+  Future<Either<PokemonFailure, Pokemon>> fetchPokemonDetails({
+    required int pokemonId,
+  });
 }

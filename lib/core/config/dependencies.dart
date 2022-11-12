@@ -11,6 +11,7 @@ abstract class IDependencies {
 
   //usecases
   abstract final IFetchPokemons fetchPokemons;
+  abstract final IFetchPokemonDetails fetchPokemonDetails;
 
   //datasources
   abstract final IPokemonDataSource pokemonDataSource;
@@ -24,6 +25,8 @@ class Dependencies implements IDependencies {
   //usecases
   @override
   final IFetchPokemons fetchPokemons;
+  @override
+  final IFetchPokemonDetails fetchPokemonDetails;
 
   //datasources
   @override
@@ -31,6 +34,7 @@ class Dependencies implements IDependencies {
 
   Dependencies({
     required this.fetchPokemons,
+    required this.fetchPokemonDetails,
     required this.pokemonDataSource,
     required this.pokemonRepository,
   });
@@ -42,9 +46,10 @@ class Dependencies implements IDependencies {
     final pokemonRepository = PokemonRepository(dataSource);
 
     return Dependencies(
-      fetchPokemons: FetchPokemons(pokemonRepository),
       pokemonDataSource: dataSource,
       pokemonRepository: pokemonRepository,
+      fetchPokemons: FetchPokemons(pokemonRepository),
+      fetchPokemonDetails: FetchPokemonDetails(pokemonRepository),
     );
   }
 }

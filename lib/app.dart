@@ -38,6 +38,8 @@ class _App extends StatelessWidget {
           data: (state) => ProviderScope(
             overrides: [
               fetchPokemons.overrideWithValue(state.dependencies.fetchPokemons),
+              fetchPokemonDetails
+                  .overrideWithValue(state.dependencies.fetchPokemonDetails),
             ],
             child: const AppLoadedRoot(),
           ),
@@ -108,7 +110,7 @@ class AppLoadedRoot extends HookConsumerWidget {
           primarySwatch: Colors.red,
           useMaterial3: true,
         ),
-        initialRoute: '/',
+        initialRoute: MainRoutes.home,
         routes: <String, Widget Function(BuildContext)>{}..addEntries(
             [
               ...mainRoutes,
