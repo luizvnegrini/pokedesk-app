@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pokedesk_app/domain/domain.dart';
 
@@ -19,6 +21,7 @@ abstract class IHomeViewModel extends ViewModel<IHomeState> {
     required int offset,
     required int limit,
   });
+  Future<void> searchPokemon(String? value);
 }
 
 class HomeViewModel extends IHomeViewModel {
@@ -54,5 +57,28 @@ class HomeViewModel extends IHomeViewModel {
     );
 
     state = newState.copyWith(isLoading: false);
+  }
+
+  @override
+  Future<void> searchPokemon(String? value) async {
+    state = state.copyWith(
+      searchTimer: Timer(
+        const Duration(milliseconds: 500),
+        () {
+          if (value != null && value.isNotEmpty && value.length >= 3) {
+            state = state.copyWith(
+              searchedPokemons: List.from(
+                state.pokemons!.results.where(
+                  (element) => element.name.contains(value),
+                ),
+              ),
+            );
+          } else {
+            state.searchedPokemons?.clear();
+            state = state.copyWith(searchedPokemons: null);
+          }
+        },
+      ),
+    );
   }
 }

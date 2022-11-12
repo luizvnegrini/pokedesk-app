@@ -19,6 +19,7 @@ class PokemonDetailsPage extends HookConsumerWidget {
 
   TextStyle get boldStyle => const TextStyle(fontWeight: FontWeight.bold);
   EdgeInsets get defaultContentPadding => const EdgeInsets.all(8.0);
+  double get defaultElevation => 5;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,6 +47,7 @@ class PokemonDetailsPage extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Card(
+                      elevation: defaultElevation,
                       child: Padding(
                         padding: defaultContentPadding,
                         child: Text(
@@ -66,6 +68,7 @@ class PokemonDetailsPage extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 50),
                     Card(
+                      elevation: defaultElevation,
                       child: Padding(
                         padding: defaultContentPadding,
                         child: Row(
@@ -97,7 +100,9 @@ class PokemonDetailsPage extends HookConsumerWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 16),
                     Card(
+                      elevation: defaultElevation,
                       child: Padding(
                         padding: defaultContentPadding,
                         child: Column(

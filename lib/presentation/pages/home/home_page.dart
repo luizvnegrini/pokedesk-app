@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../core/core.dart';
@@ -28,43 +29,123 @@ class HomePage extends HookConsumerWidget {
               return handleError(context, state, viewModel);
             }
 
-            return ListView.separated(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final pokemon = state.pokemons!.results[index];
-                final splitted = pokemon.url.split('/');
-                final pokemonId = int.parse(splitted[splitted.length - 2]);
+            final searchController = useTextEditingController();
 
-                return GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    MainRoutes.pokemonDetails,
-                    arguments: PokemonDetailsPageArguments(
-                      pokemonName: pokemon.name,
-                      pokemonId: pokemonId,
+            return Stack(
+              children: [
+                Column(
+                  children: [
+                    TextFormField(
+                      controller: searchController,
+                      onChanged: viewModel.searchPokemon,
+                      decoration: const InputDecoration(
+                        suffixIcon: Icon(Icons.search),
+                        hintText: 'Search',
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final pokemon = state.pokemons!.results[index];
+                          final splitted = pokemon.url.split('/');
+                          final pokemonId =
+                              int.parse(splitted[splitted.length - 2]);
+
+                          return GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              MainRoutes.pokemonDetails,
+                              arguments: PokemonDetailsPageArguments(
+                                pokemonName: pokemon.name,
+                                pokemonId: pokemonId,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                CachedNetworkImage(
+                                  imageUrl:
+                                      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pokemonId.png',
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          CircularProgressIndicator(
+                                              value: downloadProgress.progress),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ),
+                                const SizedBox(width: 30),
+                                Text(
+                                    pokemon.name.toCapitalized(allWords: true)),
+                              ],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) => const Divider(),
+                        itemCount: state.pokemons!.results.length,
+                      ),
+                    ),
+                  ],
+                ),
+                Visibility(
+                  visible: state.searchedPokemons != null &&
+                      state.searchedPokemons!.isNotEmpty,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 55),
+                    child: Card(
+                      elevation: 15,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            final pokemon = state.searchedPokemons![index];
+                            final splitted = pokemon.url.split('/');
+                            final pokemonId =
+                                int.parse(splitted[splitted.length - 2]);
+
+                            return GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                MainRoutes.pokemonDetails,
+                                arguments: PokemonDetailsPageArguments(
+                                  pokemonName: pokemon.name,
+                                  pokemonId: pokemonId,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  CachedNetworkImage(
+                                    width: 40,
+                                    height: 40,
+                                    imageUrl:
+                                        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pokemonId.png',
+                                    progressIndicatorBuilder: (context, url,
+                                            downloadProgress) =>
+                                        CircularProgressIndicator(
+                                            value: downloadProgress.progress),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(pokemon.name.toCapitalized()),
+                                  const Spacer(),
+                                  const Icon(Icons.navigate_next),
+                                ],
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) => const Divider(),
+                          itemCount: state.searchedPokemons != null
+                              ? state.searchedPokemons!.length
+                              : 0,
+                        ),
+                      ),
                     ),
                   ),
-                  child: Row(
-                    children: [
-                      CachedNetworkImage(
-                        imageUrl:
-                            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$pokemonId.png',
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                                CircularProgressIndicator(
-                                    value: downloadProgress.progress),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                      ),
-                      const SizedBox(width: 30),
-                      Text(pokemon.name.toCapitalized(allWords: true)),
-                    ],
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => const Divider(),
-              itemCount: state.pokemons!.results.length,
+                )
+              ],
             );
           },
         ),
