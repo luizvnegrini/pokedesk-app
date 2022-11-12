@@ -2,7 +2,7 @@ import 'pokemon_pre_data.dart';
 
 class PokemonList {
   final int count;
-  final String next;
+  final String? next;
   final String? previous;
   final List<PokemonPreData> results;
 

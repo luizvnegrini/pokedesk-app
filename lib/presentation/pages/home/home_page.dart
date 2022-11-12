@@ -31,13 +31,25 @@ class HomePage extends HookConsumerWidget {
           builder: (context, ref, child) {
             final state = useHomeState(ref);
 
-            if (state.isLoading) {
+            if (state.isLoading && !state.isLoadingNextPage) {
               return const Center(child: CircularProgressIndicator());
             }
             if (state.errorMessage.isNotEmpty) {
               return handleError(context, state, viewModel);
             }
 
+            final scrollController = useScrollController();
+            scrollController.addListener(
+              () {
+                if (scrollController.offset ==
+                        scrollController.position.maxScrollExtent &&
+                    !scrollController.position.outOfRange &&
+                    !state.isLoadingNextPage &&
+                    !state.isLoading) {
+                  viewModel.fetchNextPage();
+                }
+              },
+            );
             final searchController = useTextEditingController();
 
             return Stack(
@@ -54,6 +66,7 @@ class HomePage extends HookConsumerWidget {
                     ),
                     Expanded(
                       child: ListView.separated(
+                        controller: scrollController,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final pokemon = state.pokemons!.results[index];
@@ -93,6 +106,10 @@ class HomePage extends HookConsumerWidget {
                         separatorBuilder: (context, index) => const Divider(),
                         itemCount: state.pokemons!.results.length,
                       ),
+                    ),
+                    Visibility(
+                      visible: state.isLoadingNextPage,
+                      child: const CircularProgressIndicator(),
                     ),
                   ],
                 ),

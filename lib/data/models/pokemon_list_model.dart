@@ -3,7 +3,7 @@ import '../data.dart';
 
 class PokemonListModel {
   final int count;
-  final String next;
+  final String? next;
   final String? previous;
   final List<PokemonPreDataModel> results;
 
